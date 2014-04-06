@@ -1,0 +1,84 @@
+doctype html
+html(lang='en')
+  head
+    block head
+      meta(charset='utf-8')
+      meta(name='viewport', content='width=device-width')
+      title
+        block title
+          = 'slowtheory.com - trail running, photography, the outdoors, and other life-living'
+      link(rel='alternate', href='http://feeds.feedburner.com/slowtheory', type='application/rss+xml', title=locals.description)
+      link(rel='stylesheet', href=assets.collection.default.css)
+      link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css')
+      link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800|Dosis:300,400|Roboto+Slab:400')
+      link(rel='apple-touch-icon-precomposed', sizes='144x144', href='/assets/media/apple-touch-icon-144-precomposed.png')
+      link(rel='apple-touch-icon-precomposed', sizes='114x114', href='/assets/media/apple-touch-icon-114-precomposed.png')
+      link(rel='apple-touch-icon-precomposed', sizes='72x72', href='/assets/media/apple-touch-icon-72-precomposed.png')
+      link(rel='apple-touch-icon-precomposed', href='/assets/media/apple-touch-icon-57-precomposed.png')
+      link(rel='shortcut icon', href='/assets/media/favicon.ico')
+
+  body
+    //- Navigation menu
+    header#header.fixed
+      nav.navbar.navbar-inverse(role='navigation')
+        div.container
+          button#mobileMenu.fa.fa-bars(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+          div#bs-example-navbar-collapse-1.collapse.navbar-collapse
+            a.btn-fullscreen(href='#')
+              i.fa.fa-external-link
+            ul.nav.navbar-nav.navbar-right
+              li
+                a(href='/') Home
+              li
+                a(href='#blog') Blog
+              li
+                a(href='#contact') Contact
+
+    //- Blog posts
+    section#blog
+      article.container
+        .row
+          .left.col-md-9
+            .item
+              .item-title
+                h2
+                  | We'll be back shortly!
+              .post-content
+                p
+                  | Some nerdy computer stuff is happening, but we'll be back momentarily.
+          .right.col-md-3
+            //- Recent blog posts
+            .widget
+              h3 Recent Posts
+              ul
+                each article in contents.preview.articles
+                  li
+                    a(href=article.url)
+                      i.fa.fa-sign-out
+                      = article.title
+                    small= moment.utc(article.date).format('DD MMM YYYY')
+
+            //- Recent trovebox photos
+            .widget
+              h3 Recent Photos
+              each photo in tb.result
+                a.popup-image.thumb(href=photo.path1024x1024)
+                  img(src=photo.path300x300xCR, alt=photo.description)
+            .clearfix
+
+
+    //- Footer
+    footer
+      a.fa.fa-arrow-up.toTop(href='#')
+      .container
+        .row
+          .col-md-6.copyright
+            | Tim Lupfer
+            br
+            | 2014 © All Rights Reserved.
+          .col-md-6.text-right
+            a.social.fa.fa-facebook(href='http://www.facebook.com/timlupfer')
+            a.social.fa.fa-twitter(href='http://www.twitter.com/tlupfer')
+
+    //- Load javascript
+    script(src=assets.collection.default.js)

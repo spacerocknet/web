@@ -1,0 +1,31 @@
+{
+  "locals": {
+    "url": "http://www.spacerock.net",
+    "name": "slowtheory.com",
+    "owner": "Space Rock",
+    "description": "education, knowledge, fun, entertainment, and other life-living"
+  },
+  "plugins": [
+    "./node_modules/wintersmith-coffee/plugin.coffee",
+    "./plugins/paginator.coffee",
+    "./node_modules/wintersmith-handlebars/",
+    "./plugins/assets.coffee",
+    "./plugins/tb.coffee"
+  ],
+  "require": {
+    "moment": "moment",
+    "_": "underscore",
+    "typogr": "typogr"
+  },
+  "jade": {
+    "pretty": true
+  },
+  "markdown": {
+    "smartLists": true,
+    "smartypants": true
+  },
+  "paginator": {
+    "perPage": 8
+  },
+  "filenameTemplate": "/:year/:month/:day/:title/:file.html"
+}

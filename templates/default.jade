@@ -1,0 +1,170 @@
+doctype html
+html(lang='en')
+  head
+    block head
+      meta(charset='utf-8')
+      meta(name='viewport', content='width=device-width')
+      title
+        block title
+          = 'spacerock.net - education, knowledge, fun, entertainment, and other life-living'
+      link(rel='alternate', href='http://feeds.feedburner.com/slowtheory', type='application/rss+xml', title=locals.description)
+      link(rel='stylesheet', href=assets.collection.default.css)
+      link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Dosis:300,400')
+      link(rel='stylesheet', href='//brick.a.ssl.fastly.net/Open+Sans:300,400,700/Roboto+Slab:400')
+      link(rel='apple-touch-icon-precomposed', sizes='144x144', href='/assets/media/apple-touch-icon-144-precomposed.png')
+      link(rel='apple-touch-icon-precomposed', sizes='114x114', href='/assets/media/apple-touch-icon-114-precomposed.png')
+      link(rel='apple-touch-icon-precomposed', sizes='72x72', href='/assets/media/apple-touch-icon-72-precomposed.png')
+      link(rel='apple-touch-icon-precomposed', href='/assets/media/apple-touch-icon-57-precomposed.png')
+      link(rel='shortcut icon', href='/assets/media/favicon.ico')
+      style.
+        body {
+          letter-spacing: 0.065em;
+        }
+        #blog figure img {
+          width: auto;
+        }
+  body
+    //- Header w/slider
+    section#home.full-screen
+      div#slider
+        nav.slides-navigation
+          a.prev(href='#')
+          a.next(href='#')
+        ul.slides-container
+          li
+            div.image-caption
+              div.inner
+                h2.bigtext.strtoupper.nomargin spacerock
+            div.fullscreen-img(style='background-image: url(\'http://t.slowtheory.com/img/4.jpg\');')
+
+    //- Navigation menu
+    header#header
+      nav.navbar.navbar-inverse(role='navigation')
+        div.container
+          button#mobileMenu.fa.fa-bars(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+          div#bs-example-navbar-collapse-1.collapse.navbar-collapse
+            a.btn-fullscreen(href='#')
+              i.fa.fa-external-link
+            ul.nav.navbar-nav.navbar-right
+              li
+                a(href='/') Home
+              li
+                a(href='#blog') Blog
+              li
+                a(href='#contact') Contact
+    
+    //- Modal window for posts
+    .modal.fade.content
+      .modal-dialog
+        .modal-content
+
+    //- Blog posts
+    section#blog
+      article.container
+        .row
+          .left.col-md-9
+            each article in articles
+              .item
+                .item-title
+                  h2
+                    a(href='#id='+encodeURIComponent(article.url))!= typogr(article.title).typogrify()
+                  p.post-date
+                    i.fa.fa-calendar
+                    span(style='margin-left:10px')= 'Posted ' + moment(article.date).format('DD MMM YYYY')
+                if article.metadata.photo
+                  figure
+                    img(src=article.metadata.photo, alt=article.title)
+                .post-content
+                  //- Get a preview of the article of 600 or fewer characters.
+                  - var preview = article.intro
+                  - var preview = (typeof(preview) == 'string') ? preview.replace(/(<([^>]+)>)/ig,""):''
+                  - var preview = (typeof(preview) == 'string') ? typogr(preview.substring(0,600)).typogrify():''
+                  - var preview = (typeof(preview) == 'string') ? preview.substring(0,preview.lastIndexOf(".")+1):''
+                    | !{ preview }
+                a.btn.btn-xs(href='#id='+encodeURIComponent(article.url))
+                  i.fa.fa-sign-out 
+                  | READ MORE
+            .text-center
+              ul.pager
+                if prevPage
+                  li.previous
+                    a(href=prevPage.url+'#blog', title='Newer Posts')
+                      i.fa.fa-angle-double-left.fa-3x
+                else
+                  li.previous.disabled
+                    a
+                      i.fa.fa-angle-double-left.fa-3x
+                if nextPage
+                  li.next
+                    a(href=nextPage.url+'#blog', title='Older Posts')
+                      i.fa.fa-angle-double-right.fa-3x
+                else
+                  li.disabled.next
+                    a
+                      i.fa.fa-angle-double-right.fa-3x
+          .right.col-md-3
+            //- Recent blog posts
+            .widget
+              h3 Recent Posts
+              ul.recent-posts
+                each article in contents.preview.articles
+                  li
+                    a(href='#id='+encodeURIComponent(article.url))
+                      i.fa.fa-sign-out
+                      = article.title
+                    small= moment.utc(article.date).format('DD MMM YYYY')
+
+            //- Recent trovebox photos
+            .widget
+              h3 Recent Photos
+              each photo in tb.result
+                a.popup-image.thumb(href=photo.path1024x1024)
+                  - photo.description = (photo.description === null) ? photo.path1024x1024:photo.description
+                  img(src=photo.path200x200xCR, alt=photo.description)
+            .clearfix
+
+    //- Modal window for contact form
+    .modal.fade.contact-modal
+      .modal-dialog.modal-sm
+        .modal-content
+          form.form-horizontal
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+              h2 Contact me
+            .modal-body
+              fieldset
+                .control-group
+                  label.control-label(for='contact_name') Name
+                  .controls
+                    input#contact_name.input-xlarge(name='contact_name', type='text', placeholder='Enter Name', required)
+                .control-group
+                  label.control-label(for='contact_email') Email
+                  .controls
+                    input#contact_email.input-xlarge(name='contact_email', type='email', placeholder='Enter Email', required)
+                .control-group
+                  label.control-label(for='contact_message') Message
+                  .controls
+                    textarea#contact_message(name='contact_message', placeholder='Enter Message', required)
+              .modal-footer
+                .control-group
+                  label.control-label(for='submit')
+                  .controls
+                    button#submit.btn.btn-default(name='submit') Send
+
+    //- Footer
+    footer
+      a.fa.fa-arrow-up.toTop(href='#')
+      .container
+        .row
+          .col-md-6.copyright
+            | Tim Lupfer
+            br
+            | 2014 © All Rights Reserved.
+          .col-md-6.text-right
+            a.social.fa.fa-github-square(href="http://www.github.com/tlupfer")
+            a.social.fa.fa-facebook(href='http://www.facebook.com/timlupfer')
+            a.social.fa.fa-twitter(href='http://www.twitter.com/tlupfer')
+            a.social.fa.fa-instagram(href='http://www.instagram.com/timlupfer')
+
+    //- Load javascript
+    script(src=assets.collection.default.js)
